@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	{% include 'account/messages.html' %}
+	<h1>Welcome {{ request.user }}</h1>
+
+	<ul>
+		{% for i in all %}
+			<li><a href="{% url 'profile' i.id %}">{{i.username}}</a></li>
+		{% endfor %}
+	</ul>
+
+{% endblock %}
