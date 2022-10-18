@@ -25,44 +25,60 @@
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img src="{{ user.image.url }}" alt="{{ user.username }}"
+            <img src="/accounts{{ user.image.url }}" alt="{{ user.username }}"
               class="rounded-circle img-fluid" style="width: 150px;">
             <h5 class="my-3">{{ user.username }}</h5>
             <p class="text-muted mb-1">{{ user.description }}</p>
             <p class="text-muted mb-4">{{ user.address }}</p>
+            <p class="text-muted">{{ user.id }}</p>
+            <p class="text-muted">{{ user.slug }}</p>
             <div class="d-flex justify-content-center mb-2">
-              <a href="{% url 'edit'  user.id %}" class="btn btn-primary">Edit</a>
+              {% if  check %}
+                <a href="{% url 'edit'  user.id %}" class="btn btn-primary">Edit</a>
+              {% endif %}
               <button type="button" class="btn btn-outline-primary ms-1">Message</button>
             </div>
           </div>
+          {% if request.user.is_authenticated %}
+            {% if check %}
+              <div class="p-3 text-center">
+                <hr>
+                <a href="{% url 'ask'  user.id %}" class="btn btn-danger">Delete</a>
+              </div>  
+            {% endif %}
+          {% endif %}
         </div>
         <div class="card mb-4 mb-lg-0">
           <div class="card-body p-0">
             <ul class="list-group list-group-flush rounded-3">
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fas fa-globe fa-lg text-warning"></i>
-                <p class="mb-0">https://mdbootstrap.com</p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.website }}" target="_blank">Webiste</a></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-                <p class="mb-0">mdbootstrap</p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.github }}" target="_blank">Github Profile</a></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-                <p class="mb-0">@mdbootstrap</p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.twitter }}" target="_blank">Twitter Profile</a></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-                <p class="mb-0">mdbootstrap</p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.instagram }}" target="_blank">Instagram Profile</a></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                <p class="mb-0">mdbootstrap</p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.facebook }}" target="_blank">Facebook Profile</a></p>
               </li>
             </ul>
           </div>
         </div>
+
+        <!-- Messages -->
+        {% include 'account/messages.html' %}
       </div>
+
       <div class="col-lg-8">
         <div class="card mb-4">
           <div class="card-body">
@@ -95,77 +111,33 @@
           </div>
         </div>
         
-        <!-- Messages -->
-        {% include 'account/messages.html' %}
-
-        <!-- <div class="row">
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
-                </p>
-                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="80"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
-                <div class="progress rounded mb-2" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
+        
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <p class="lead fw-normal mb-0">Recent Posts</p>
+          <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+        </div>
+        <div class="row g-2">
+          <div class="col mb-2">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
+              alt="image 1" class="w-100 rounded-3">
           </div>
-          <div class="col-md-6">
-            <div class="card mb-4 mb-md-0">
-              <div class="card-body">
-                <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
-                </p>
-                <p class="mb-1" style="font-size: .77rem;">Web Design</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">One Page</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 89%" aria-valuenow="89"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Mobile Template</p>
-                <div class="progress rounded" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 55%" aria-valuenow="55"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <p class="mt-4 mb-1" style="font-size: .77rem;">Backend API</p>
-                <div class="progress rounded mb-2" style="height: 5px;">
-                  <div class="progress-bar" role="progressbar" style="width: 66%" aria-valuenow="66"
-                    aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-              </div>
-            </div>
+          <div class="col mb-2">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
+              alt="image 1" class="w-100 rounded-3">
           </div>
-        </div> -->
+        </div>
+        <div class="row g-2">
+          <div class="col">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
+              alt="image 1" class="w-100 rounded-3">
+          </div>
+          <div class="col">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
+              alt="image 1" class="w-100 rounded-3">
+          </div>
+      </div>
+        
 
       </div>
     </div>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	Ask
+{% endblock  %}
+
+
+{% block content %}
+	
+	<div class="row">
+		<div class="col" style="margin: 10% 30%;">
+			<div class="text-center">
+				<h1 class="mb-2">Are you sure?</h1>
+				<a class="btn btn-danger me-1" href="{% url 'delete' user.id %}">Yes</a>
+				<a class="btn btn-info me-1" href="{% url 'view' user.slug %}">No</a>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

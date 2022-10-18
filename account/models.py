@@ -12,7 +12,13 @@ class Profile(models.Model):
 	description = models.CharField(max_length=2020, null=True, blank=True)
 	phone = models.CharField(max_length=11, null=True, blank=True)
 	address = models.CharField(max_length=2022, blank=True, null=True)
-	image = models.ImageField(upload_to="image", default="../static/default.png")
+	image = models.ImageField(upload_to="image", default="./static/default.png")
+
+	website = models.URLField(null=True, blank=True)
+	github = models.URLField(null=True, blank=True)
+	twitter = models.URLField(null=True, blank=True)
+	instagram = models.URLField(null=True, blank=True)
+	facebook = models.URLField(null=True, blank=True)
 
 
 	def __str__(self):

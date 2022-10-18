@@ -7,7 +7,7 @@ from .models import Profile
 class ProfileForm(forms.ModelForm):
 	class Meta:
 		model = Profile
-		fields = ['username', 'email', 'description', 'phone', 'address', 'image']
+		fields = ['username', 'email', 'description', 'phone', 'address', 'image', "website", "github", "twitter", "instagram", "facebook"]
 		#fields = "__all__"
 
 	def __init__(self, *args, **kwargs):

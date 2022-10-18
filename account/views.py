@@ -70,19 +70,27 @@ def singout(request):
 	return redirect("login")
 
 
-def profile_page(request,pk):
-	user = Profile.objects.get(id=pk)
-	user_slug = user.slug
+def view_profile(request, slug):
+	user = Profile.objects.get(slug=slug)
 
+	a = str(request.user.username)
+	b = str(user)
+
+	check = None
+
+	if a == b:
+		check = True
+
+	if a != b:
+		check = False
 
 	context = {
-		"user": user
+		"user": user,
+		"check": check,
 	}
 
 	return render(request, 'account/profile.html', context)
 
-
-# enctype="multipart/form-data"
 
 @login_required
 def edit_page(request, pk):
@@ -93,7 +101,7 @@ def edit_page(request, pk):
 		if form.is_valid():
 			form.save()
 			messages.success(request, "Update successfully!")
-			return redirect(reverse("profile", args=[user.id]))
+			return redirect(reverse("view", args=[user.slug]))
 	else:
 		form = ProfileForm(instance=user)
 
@@ -103,6 +111,21 @@ def edit_page(request, pk):
 
 	return render(request, 'account/edit.html', context)
 
+
+
+def delete_profile(request, pk):
+
+	user = Profile.objects.get(id=pk)
+	user.delete()
+	return redirect("home")
+
+
+def ask_confirm(request, pk):
+	user = Profile.objects.get(id=pk)
+	context = {
+		"user": user,
+	}
+	return render(request, "account/ask.html", context)
 
 
 

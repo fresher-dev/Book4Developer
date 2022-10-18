@@ -6,7 +6,7 @@
 
 	<ul>
 		{% for i in all %}
-			<li><a href="{% url 'profile' i.id %}">{{i.username}}</a></li>
+			<li><a href="{% url 'view' i.slug %}">{{i.username}}| {{ i.id }}</a></li>
 		{% endfor %}
 	</ul>
 
