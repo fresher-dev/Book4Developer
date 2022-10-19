@@ -13,6 +13,8 @@ urlpatterns = [
 	path("<int:pk>/edit/", views.edit_page, name="edit"),
 	path("delete/<int:pk>/", views.delete_profile, name="delete"),
 	path("ask/<int:pk>/", views.ask_confirm, name="ask"),
+	path("create/<int:pk>/", views.create_profile, name="createprofile"),
+
 ]
 
 

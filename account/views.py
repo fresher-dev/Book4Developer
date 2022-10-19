@@ -20,7 +20,7 @@ def singin(request):
 		print(name, password1)
 		user = authenticate(request, username=name, password=password1)
 		if user is None:
-			return HttpResponse("Invalid credentials.")
+			return HttpResponse("Invalid credentials.<br>User not found!")
 		if user is not None:
 			login(request, user)
 			messages.success(request, "login successfully!")
@@ -62,20 +62,30 @@ def singout(request):
 def view_profile(request, usr):
 	user = User.objects.get(username=usr)
 
+	profile = None
+	
+	for i in UserProfile.objects.all():
+		if str(i) == str(user):
+			profile = True
+			break
+		else:
+			profile = None 
+
 	a = str(request.user.username)
 	b = str(user)
 
+
 	check = None
 
-	if a == b:
+	if str(request.user.username) == str(user):
 		check = True
-
-	if a != b:
+	else:
 		check = False
 
 	context = {
 		"user": user,
 		"check": check,
+		"profile": profile,
 	}
 
 	return render(request, 'account/profile.html', context)
@@ -87,8 +97,6 @@ def edit_page(request, pk):
 
 	# UserProfile 
 	usera = UserProfile.objects.get(user = user)
-	print(user)
-	print(usera)
 
 	if request.method == "POST":
 		form = ProfileForm(request.POST, request.FILES, instance=usera)
@@ -121,6 +129,23 @@ def ask_confirm(request, pk):
 	}
 	return render(request, "account/ask.html", context)
 
+@login_required
+def create_profile(request, pk):
 
+	user = User.objects.get(id=pk)
+	print(user)
+	if request.method == "POST":
+		form = ProfileForm(request.POST)
+		if form.is_valid():
+			newform = form.save(commit=False)
+			newform.user = user
+			newform.save()
+			messages.success(request, "Create profile successfully!")
+			return redirect(reverse("view", args=[user.username]))
+	else:
+		form = ProfileForm()
 
-
+	context = {
+		"form": form
+	}
+	return render(request, "account/edit.html", context)
