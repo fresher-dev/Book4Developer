@@ -1,13 +1,5 @@
 from django.contrib import admin
-from .models import Profile
+from .models import UserProfile
 # Register your models here.
 
-
-
-class ProfileAdmin(admin.ModelAdmin):
-	prepopulated_fields = {
-		"slug": ("username",)
-	}
-
-
-admin.site.register(Profile, ProfileAdmin)
+admin.site.register(UserProfile)

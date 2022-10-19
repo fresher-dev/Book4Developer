@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}
   Profile
 {% endblock  %}
@@ -25,13 +25,16 @@
       <div class="col-lg-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img src="/accounts{{ user.image.url }}" alt="{{ user.username }}"
+            {% if user.userprofile.image.url %}
+              <img src="/accounts{{ user.userprofile.image.url }}" alt="{{ user.username }}"
               class="rounded-circle img-fluid" style="width: 150px;">
+            {% else %}
+              <img src="{% static 'img/default.png' %}" alt="{{ user.username }}"
+              class="rounded-circle img-fluid" style="width: 150px;">
+            {% endif %}
             <h5 class="my-3">{{ user.username }}</h5>
-            <p class="text-muted mb-1">{{ user.description }}</p>
-            <p class="text-muted mb-4">{{ user.address }}</p>
-            <p class="text-muted">{{ user.id }}</p>
-            <p class="text-muted">{{ user.slug }}</p>
+            <p class="text-muted mb-1">{{ user.userprofile.description }}</p>
+            <p class="text-muted mb-4">{{ user.userprofile.address }}</p>
             <div class="d-flex justify-content-center mb-2">
               {% if  check %}
                 <a href="{% url 'edit'  user.id %}" class="btn btn-primary">Edit</a>
@@ -53,23 +56,23 @@
             <ul class="list-group list-group-flush rounded-3">
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fas fa-globe fa-lg text-warning"></i>
-                <p class="mb-0"><a class="link-primary" href="{{ user.website }}" target="_blank">Webiste</a></p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.userprofile.website }}" target="_blank">Webiste</a></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-                <p class="mb-0"><a class="link-primary" href="{{ user.github }}" target="_blank">Github Profile</a></p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.userprofile.github }}" target="_blank">Github Profile</a></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-                <p class="mb-0"><a class="link-primary" href="{{ user.twitter }}" target="_blank">Twitter Profile</a></p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.userprofile.twitter }}" target="_blank">Twitter Profile</a></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-                <p class="mb-0"><a class="link-primary" href="{{ user.instagram }}" target="_blank">Instagram Profile</a></p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.userprofile.instagram }}" target="_blank">Instagram Profile</a></p>
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                <p class="mb-0"><a class="link-primary" href="{{ user.facebook }}" target="_blank">Facebook Profile</a></p>
+                <p class="mb-0"><a class="link-primary" href="{{ user.userprofile.facebook }}" target="_blank">Facebook Profile</a></p>
               </li>
             </ul>
           </div>
@@ -96,7 +99,7 @@
                 <p class="mb-0">Phone</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ user.phone }}</p>
+                <p class="text-muted mb-0">{{ user.userprofile.phone }}</p>
               </div>
             </div>
             <hr>
@@ -105,7 +108,7 @@
                 <p class="mb-0">Address</p>
               </div>
               <div class="col-sm-9">
-                <p class="text-muted mb-0">{{ user.address }}</p>
+                <p class="text-muted mb-0">{{ user.userprofile.address }}</p>
               </div>
             </div>
           </div>

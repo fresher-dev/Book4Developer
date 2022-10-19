@@ -1,18 +1,17 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 # Create your models here.
 
 
-class Profile(models.Model):
+class UserProfile(models.Model):
 	"""docstring for Profile"""
-	username = models.CharField(max_length=200)
-	email = models.EmailField()
-	password = models.CharField(max_length=200)
-	slug = models.SlugField()
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	description = models.CharField(max_length=2020, null=True, blank=True)
 	phone = models.CharField(max_length=11, null=True, blank=True)
 	address = models.CharField(max_length=2022, blank=True, null=True)
-	image = models.ImageField(upload_to="image", default="./static/default.png")
+	image = models.ImageField(upload_to="image", default="img/default.png")
+	created_date = models.DateTimeField(default=timezone.now)
 
 	website = models.URLField(null=True, blank=True)
 	github = models.URLField(null=True, blank=True)
@@ -22,7 +21,7 @@ class Profile(models.Model):
 
 
 	def __str__(self):
-		return self.username
+		return self.user.username
 
 
 

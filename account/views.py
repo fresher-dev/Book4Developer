@@ -2,35 +2,31 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
-from .models import Profile
+from .models import UserProfile
 from django.contrib.auth.models import User
-from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileForm
+from .forms import ProfileForm, NewUserForm
 from django.urls import reverse
 # Create your views here.
 
 
 def home(request):
-	return render(request, 'account/home.html', {'all': Profile.objects.all()})
+	return render(request, 'account/home.html', {'all': User.objects.all()})
 
 def singin(request):
 	if request.method == "POST":
-		username = request.POST['username']
+		name = request.POST['username']
 		password1 = request.POST['password1']
-		password2 = request.POST['password2']
-
-		if password1 == password2:
-			user = authenticate(username=username, password=password1)
-			if user is not None:
-				login(request, user)
-				messages.success(request, "login successfully!")
-				return redirect("home") # go to home 
-			else:
-				messages.info(request, "Wrong username! Not Your Name")
-				return redirect("login")
+		print(name, password1)
+		user = authenticate(request, username=name, password=password1)
+		if user is None:
+			return HttpResponse("Invalid credentials.")
+		if user is not None:
+			login(request, user)
+			messages.success(request, "login successfully!")
+			return redirect("home") # go to home 
 		else:
-			messages.info(request, "Wrong username or password!")
+			messages.info(request, "Wrong username and password")
 			return redirect("login")
 
 	return render(request, 'account/login.html')
@@ -39,30 +35,23 @@ def singin(request):
 
 def singup(request):
 	if request.method == "POST":
-		username = request.POST['username']
-		email = request.POST['email']
-		password1 = request.POST['password1']
-		password2 = request.POST['password2']
-		slug = slugify(username)
-		if password1 == password2:
-			if Profile.objects.filter(username=username).exists():
-				messages.info(request, "Username is already exits!")
-				return redirect("register")
-			if Profile.objects.filter(email=email).exists():
-				messages.info(request, "Username is already exits!")
-				return redirect("register")
-			else:
-				user = Profile.objects.create(username=username, email=email, password=password1, slug=slug)
-				user.save()
-				messages.success(request, "Account successfully created!")
-				return redirect("login")
+		
+		form = NewUserForm(request.POST)
 
-		else:
-			messages.info(request, "Wrong password!")
-			return redirect("register")
+		if form.is_valid():
+			user = form.save()
+			login(request, user)
+			messages.success(request, "Account successfully created!")
+			return redirect("home")
+	else:
+		form = NewUserForm()
+		messages.info(request, "Wrong password!")
 
-
-	return render(request, "account/register.html")
+	context = {
+		"form": form
+	}	
+	
+	return render(request, "account/register.html", context)
 
 
 def singout(request):
@@ -70,8 +59,8 @@ def singout(request):
 	return redirect("login")
 
 
-def view_profile(request, slug):
-	user = Profile.objects.get(slug=slug)
+def view_profile(request, usr):
+	user = User.objects.get(username=usr)
 
 	a = str(request.user.username)
 	b = str(user)
@@ -94,16 +83,21 @@ def view_profile(request, slug):
 
 @login_required
 def edit_page(request, pk):
-	user = Profile.objects.get(id=pk)
+	user = User.objects.get(id=pk)
+
+	# UserProfile 
+	usera = UserProfile.objects.get(user = user)
+	print(user)
+	print(usera)
 
 	if request.method == "POST":
-		form = ProfileForm(request.POST, request.FILES, instance=user)
+		form = ProfileForm(request.POST, request.FILES, instance=usera)
 		if form.is_valid():
 			form.save()
 			messages.success(request, "Update successfully!")
-			return redirect(reverse("view", args=[user.slug]))
+			return redirect(reverse("view", args=[user.username]))
 	else:
-		form = ProfileForm(instance=user)
+		form = ProfileForm(instance=usera)
 
 	context = {
 		"form": form
@@ -115,13 +109,13 @@ def edit_page(request, pk):
 
 def delete_profile(request, pk):
 
-	user = Profile.objects.get(id=pk)
+	user = User.objects.get(id=pk)
 	user.delete()
 	return redirect("home")
 
 
 def ask_confirm(request, pk):
-	user = Profile.objects.get(id=pk)
+	user = User.objects.get(id=pk)
 	context = {
 		"user": user,
 	}
