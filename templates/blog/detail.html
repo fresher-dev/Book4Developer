@@ -27,6 +27,9 @@
                                 </p>
                                 <p>{{ post.body }}</p>
 
+                                <div class="pt-3 text-center">
+                                    <a href="{% url 'blog:review' post.id %}" class="btn btn-outline-success">Reviews</a>
+                                </div>
 
                                 <div class="tag-widget post-tag-container mb-5 mt-5">
                                     <div class="tagcloud">

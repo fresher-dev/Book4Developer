@@ -6,6 +6,10 @@ from .forms import PostForm
 from comments.forms import CommentForm
 from django.db.models import Q
 from django.http import HttpResponse
+from reviews.models import Review
+from reviews.forms import ReviewForm
+from django.urls import reverse
+
 
 
 def popular():
@@ -182,3 +186,32 @@ def view_tag(request, name):
         "tag": tag,
     }
     return render(request, "blog/tag.html", context)
+
+
+def reviews(request, pk):
+    post = Post.objects.get(id=pk)
+    user = request.user
+    
+    print("id:", post.id, "slug:", post.slug)
+
+    if request.method == "POST":
+        form = ReviewForm(request.POST)
+
+        if form.is_valid():
+            #author = form.cleaned_data['author']
+            starts = form.cleaned_data['starts']
+            comment = form.cleaned_data['comment']
+
+            review = Review(author=user, starts=starts, comment=comment, post=post)
+            review.save()
+            return redirect(reverse("blog:detail", args=[post.id, post.slug]))
+    else:
+        form = ReviewForm()
+        review = Review.objects.filter(post=post)
+
+    context = {
+        "form": form,
+        "review": review
+    }
+
+    return render(request, "reviews/review.html", context)

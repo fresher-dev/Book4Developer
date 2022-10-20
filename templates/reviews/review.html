@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+	Reviews
+{% endblock %}
+
+
+{% block content %}
+	{% include 'navbar.html' %}
+    <div id="colorlib-page">
+        <a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle"><i></i></a>
+
+        <div id="colorlib-main">
+            <section class="ftco-section">
+                <div class="container">
+                    <div class="row px-md-4">
+                        <div class="col-md-12">
+                            <form method="POST">
+                                {% csrf_token %}
+                                <label for="user">
+                                	User
+                                </label>
+                                <p class="form-control" id="user">{{ request.user }}</p>
+                                {{ form.as_p }}
+
+                                <button class="btn btn-primary">Submit</button>
+                            </form>
+
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr class="py-2"></hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h1 class="mb-2">Reviews</h1>
+                            {% for post in review %}
+                                <div class="blog-entry ftco-animate d-md-flex">
+                                    <div class="text text-2 pl-md-4">
+                                        <h3 class="mb-2">{{ post }}</h3>
+                                        <div class="meta-wrap">
+                                            <p><i class="icon-calendar mr-2"></i>{{ post.review_date }}</p>
+                                            <p><i class="icon-person">{{ post.author }}</i></p>
+                                            <p><i class="fa-regular fa-star"> {{ post.starts }}</i></p>
+                                        </div>
+                                        <p class="mb-4">{{ post.comment }}</p>
+                                        <span class=""></span>
+                                        <!-- <p><a href="" class="btn btn-primary">Edit</a></p> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <hr class="py-2"></hr>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div><!-- END COLORLIB-MAIN -->
+    </div><!-- END COLORLIB-PAGE -->
+{% endblock %}

@@ -16,6 +16,7 @@ urlpatterns = [
     path("<int:pk>/delete", views.post_delete, name="delete"),
     path("search/", views.search_post, name="search"),
     path("tags/<str:name>/", views.view_tag, name="tag"),
+    path("review/<int:pk>/", views.reviews, name="review"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
