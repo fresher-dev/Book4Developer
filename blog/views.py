@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
-from django.urls import reverse
 from .models import Post, Tag
 from django.contrib.auth.models import User
 from random import shuffle
 from .forms import PostForm, CommentForm
 from django.db.models import Q
+from django.http import HttpResponse
 
 
 def popular():
@@ -174,3 +174,9 @@ def search_post(request):
     }
 
     return render(request, 'blog/search.html', context)
+
+
+def view_tag(request, name):
+    tags = Tag.objects.get(name=name)
+    data = tags.post_set.all()
+    return HttpResponse("{}".format(data))

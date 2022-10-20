@@ -11,7 +11,7 @@
         <h3 class="sidebar-heading">Categories</h3>
         <ul class="categories">
             {% for key, value in tags.items %}
-                <li><a href="#">{{ key }}
+                <li><a href="{% url 'blog:tag' key %}">{{ key }}
                     <span>
 		                		{{ value }}
 		                	</span></a></li>
