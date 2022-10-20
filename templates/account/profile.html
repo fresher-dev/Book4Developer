@@ -13,7 +13,7 @@
       <div class="col">
         <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
           <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'account:home' %}">Home</a></li>
             <!-- <li class="breadcrumb-item"><a href="#">User</a></li> -->
             <li class="breadcrumb-item active" aria-current="page">User Profile</li>
           </ol>
@@ -46,9 +46,9 @@
             <div class="d-flex justify-content-center mb-2">
               {% if  check %}
                 {% if profile %}
-                  <a href="{% url 'edit'  user.id %}" class="btn btn-primary">Edit</a>
+                  <a href="{% url 'account:edit'  user.id %}" class="btn btn-primary">Edit</a>
                 {% else %}
-                  <a href="{% url 'createprofile'  user.id %}" class="btn btn-primary">Crete</a>
+                  <a href="{% url 'account:createprofile'  user.id %}" class="btn btn-primary">Crete</a>
                 {% endif %}
               {% endif %}
               <button type="button" class="btn btn-outline-primary ms-1">Message</button>
@@ -58,7 +58,7 @@
             {% if check %}
               <div class="p-3 text-center">
                 <hr>
-                <a href="{% url 'ask'  user.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'account:ask'  user.id %}" class="btn btn-danger">Delete</a>
               </div>  
             {% endif %}
           {% endif %}

@@ -1,0 +1,42 @@
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
+class Post(models.Model):
+    STATUS_CHOOICE = (
+        (0, "Draft"),
+        (1, "Publish")
+    )
+
+    title = models.CharField(max_length=200)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    slug = models.SlugField()
+    created_date = models.DateTimeField(default=timezone.now)
+    body = models.TextField(null=True, blank=True)
+    updated_date = models.DateTimeField(auto_now=True)
+    tag = models.ManyToManyField(Tag, null=True, blank=True)
+    image = models.ImageField(upload_to="postimg", null=True, blank=True)
+    status = models.IntegerField(choices=STATUS_CHOOICE, default=0)
+
+    def __str__(self):
+        return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    email = models.EmailField(blank=True, null=True)
+    body = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Comment := {} <==> {} ".format(self.name, self.post.title)

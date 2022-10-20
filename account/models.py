@@ -19,10 +19,5 @@ class UserProfile(models.Model):
 	instagram = models.URLField(null=True, blank=True)
 	facebook = models.URLField(null=True, blank=True)
 
-
 	def __str__(self):
 		return self.user.username
-
-
-
-		
