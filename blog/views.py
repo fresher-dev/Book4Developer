@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from .models import Post, Tag
 from django.contrib.auth.models import User
-from .forms import PostForm, CommentForm
+from .forms import PostForm
+from comments.forms import CommentForm
 from django.db.models import Q
 from django.http import HttpResponse
 
