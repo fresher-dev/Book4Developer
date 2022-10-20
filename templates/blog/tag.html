@@ -17,14 +17,16 @@
                 <div class="container">
                     <div class="row d-flex">
                         <div class="col-xl-8 px-md-5 py-5">
+                            <h1>Tag: {{ tag }}</h1>
                             <div class="row pt-md-4">
-                            {% if result %}
-                                 <h4 class="mb-3">Found Data.</h4>
-                                {% for post in result %}
+                                {% for post in data %}
                                     <div class="col-md-12">
                                         <div class="blog-entry-2 ftco-animate">
-                                            <a href="{% url 'blog:detail' post.id post.slug %}"><img
-                                                    src="/blog{{ post.image.url }}" alt="{{ post.title }}" class="img"></a>
+                                            <a href="{% url 'blog:detail' post.id post.slug %}">
+                                                {% if post.image %}
+                                                    <img src="/blog{{ post.image.url }}" alt="{{ post.title }}" class="img">
+                                                {% endif %}
+                                            </a>
 
                                             <div class="text pt-4">
                                                 <h3 class="mb-4"><a
@@ -32,8 +34,8 @@
                                                 </h3>
                                                 <p class="mb-4">{{ post.body|linebreaksbr|slice:":200" }}</p>
                                                 <div class="author mb-4 d-flex align-items-center">
-                                                    <a href="{% url 'blog:single' post.author %}">
-                                                        <img src="/static/blog/images/person_1.jpg" alt="" class="img"></a>
+                                                    <a href="{% url 'account:view' post.author %}">
+                                                        <img src="/accounts{{ post.author.userprofile.image.url }}" alt="{{ post.author }}" class="img"></a>
                                                     <div class="ml-3 info">
                                                         <span>Written by</span>
                                                         <h3>
@@ -46,7 +48,7 @@
                                                         <p class="meta">
                                                             <span><i class="icon-heart"></i>3</span>
                                                             <span><i class="icon-eye"></i>100</span>
-                                                            <span><i class="icon-comment"></i>5</span>
+                                                            <span><i class="icon-comment"></i>{{ post.comment_set.all.count }}</span>
                                                         </p>
                                                     </div>
                                                     <div class="half">
@@ -62,9 +64,6 @@
                                         <hr class="py-2"></hr>
                                     </div>
                                 {% endfor %}
-                            {% else %}
-                                <p>No Found!</p>
-                            {% endif %}
                             </div>
                         </div>
                     </div>

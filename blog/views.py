@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.utils.text import slugify
 from .models import Post, Tag
 from django.contrib.auth.models import User
-from random import shuffle
 from .forms import PostForm, CommentForm
 from django.db.models import Q
 from django.http import HttpResponse
@@ -27,12 +26,6 @@ def item_count():
 
 def home(request):
     post = Post.objects.filter(status=1).order_by('-created_date')
-    posts = []
-
-    for i in post:
-        posts.append(i)
-
-    shuffle(posts)
 
     context = {
         "top_post": popular(),
@@ -167,8 +160,10 @@ def post_delete(request, pk):
 def search_post(request):
     if request.method == "GET":
         queryset = request.GET.get('q')
+        print(queryset)
         if queryset is not None:
             result = Post.objects.filter(Q(title__icontains=queryset))
+            print(result)
     context = {
         "result": result,
     }
@@ -177,6 +172,12 @@ def search_post(request):
 
 
 def view_tag(request, name):
-    tags = Tag.objects.get(name=name)
-    data = tags.post_set.all()
-    return HttpResponse("{}".format(data))
+    tag = Tag.objects.get(name=name)
+    data = tag.post_set.all()
+
+    context = {
+        "data": data,
+        "top_post": popular(),
+        "tag": tag,
+    }
+    return render(request, "blog/tag.html", context)

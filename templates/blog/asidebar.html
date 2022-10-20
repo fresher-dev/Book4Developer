@@ -25,7 +25,7 @@
         <h3 class="sidebar-heading">Tag Cloud</h3>
         <ul class="tagcloud">
             {% for key, value in tags.items  %}
-                <a href="#" class="tag-cloud-link">{{ key }}</a>
+                <a href="{% url 'blog:tag' key %}" class="tag-cloud-link">{{ key }}</a>
             {% endfor %}
         </ul>
     </div>

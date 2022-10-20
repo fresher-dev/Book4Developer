@@ -31,9 +31,15 @@
                                                         <img class="img-fluid rounded-circle" src="/accounts{{ post.author.userprofile.image.url }}" alt="{{ post.author }}"></a>
                                                     <div class="ml-3 info">
                                                         <span>Written by</span>
-                                                        <h3>
+                                                        <h3 class="mb-3">
                                                             <a href="{% url 'blog:single' post.author %}">{{ post.author }}</a>,
-                                                            <span>{{ post.updated_date }}</span></h3>
+                                                            <span>{{ post.updated_date }}</span>
+                                                        </h3>
+                                                        <h3>
+                                                            {% for tag in post.tag.all  %}
+                                                                <span><a href="{% url 'blog:tag' tag %}" class="btn btn-outline-info">{{ tag }}</a></span>
+                                                            {% endfor %}
+                                                        </h3>
                                                     </div>
                                                 </div>
                                                 <div class="meta-wrap d-md-flex align-items-center">

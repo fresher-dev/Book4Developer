@@ -20,29 +20,31 @@
 {{ post.title }}" class="img-fluid img"></a>
                                     {% endif %}
                                 </p>
-                                <p> Date: {{ post.created_date }}</p>
+                                <p> Date: {{ post.created_date }}
+                                    {% for tag in post.tag.all  %}
+                                        <span class="ms-3"><a href="{% url 'blog:tag' tag %}" class="btn btn-outline-info">{{ tag }}</a></span>
+                                    {% endfor %}
+                                </p>
                                 <p>{{ post.body }}</p>
 
 
                                 <div class="tag-widget post-tag-container mb-5 mt-5">
                                     <div class="tagcloud">
-                                        {% for tag in tags %}
-                                            <a href="#" class="tag-cloud-link">{{ tag }}</a>
+                                        {% for tag in users.post.tag.all  %}
+                                            <a href="{% url 'blog:tag' tag %}" class="tag-cloud-link">{{ tag }}</a>
                                         {% endfor %}
                                     </div>
                                 </div>
 
                                 <div class="about-author d-flex p-4 bg-light">
                                     <div class="bio mr-5">
-                                        <img src="/static/blog/images/person_1.jpg" alt="Image placeholder"
-                                             class="img-fluid mb-4">
+                                        <a href="{% url 'account:view' post.author %}"><img src="/accounts{{ post.author.userprofile.image.url }}" alt="{{ post.author }}" class="img-fluid mb-4"></a>
                                     </div>
                                     <div class="desc">
-                                        <h3>George Washington</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque,
-                                            autem necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam
-                                            vero culpa sapiente consectetur similique, inventore eos fugit cupiditate
-                                            numquam!</p>
+                                        <h3><a href="{% url 'blog:single' post.author %}">{{ post.author }}</a></h3>
+                                        {% if post.author.userprofile.description %}
+                                            <p>{{ post.author.userprofile.description }}</p>
+                                        {% endif %}
                                     </div>
                                 </div>
 
