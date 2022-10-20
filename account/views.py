@@ -9,8 +9,6 @@ from .forms import ProfileForm, NewUserForm
 from django.urls import reverse
 
 
-# Create your views here.
-
 
 def home(request):
     return render(request, 'account/home.html', {'all': User.objects.all()})
@@ -63,6 +61,8 @@ def singout(request):
 def view_profile(request, usr):
     user = User.objects.get(username=usr)
 
+    post = user.post_set.all()[:4:-1]
+
     profile = None
 
     for i in UserProfile.objects.all():
@@ -86,6 +86,7 @@ def view_profile(request, usr):
         "user": user,
         "check": check,
         "profile": profile,
+        "post": post,
     }
 
     return render(request, 'account/profile.html', context)
