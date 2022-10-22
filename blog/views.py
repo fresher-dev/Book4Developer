@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from reviews.models import Review
 from reviews.forms import ReviewForm
 from django.urls import reverse
+from comments.models import Comment
 
 
 def popular():
