@@ -61,7 +61,19 @@
                                                 <img src="/static/blog/images/person_1.jpg" alt="Image placeholder">
                                             </div>
                                             <div class="comment-body">
-                                                <h3>{{ cmt.name }}</h3>
+                                                {% if request.user.is_authenticated %}
+                                                    {% if cmt.user == None %}
+                                                        <p><i class="icon-person">AnonymousUser</i></p>
+                                                    {% else %}
+                                                        <p><i class="icon-person">{{ cmt.user }}</i></p>
+                                                    {% endif %}
+                                                {% else %}
+                                                    {% if cmt.user == None %}
+                                                        <p><i class="icon-person">AnonymousUser</i></p>
+                                                    {% else %}
+                                                        <p><i class="icon-person">{{ cmt.user }}</i></p>
+                                                    {% endif %}
+                                                {% endif %}
                                                 <div class="meta">{{ cmt.created_date }}</div>
                                                 <p>{{ cmt.body }}</p>
                                                 <p><a href="#" class="reply">Reply</a></p>
@@ -79,6 +91,13 @@
                                             <form action="#" class="p-3 p-md-5 bg-light" method="POST">
                                                 {% csrf_token %}
                                                 <div class="form-group">
+                                                    {% if request.user.is_authenticated %}
+                                                        <label for="name">Username:</label>
+                                                        <input type="text" name="name" id="name" value="{{ request.user }}" class="form-control">
+                                                    {% else %}
+                                                        <label for="name">Username:</label>
+                                                        <input type="text" name="name" id="name" value="{{ request.user }}" class="form-control">
+                                                    {% endif %}
                                                     {{ comment_form.as_p }}
                                                 </div>
                                                 <div class="form-group">

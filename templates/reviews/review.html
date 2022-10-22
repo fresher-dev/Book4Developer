@@ -41,7 +41,19 @@
                                         <h3 class="mb-2">{{ post }}</h3>
                                         <div class="meta-wrap">
                                             <p><i class="icon-calendar mr-2"></i>{{ post.review_date }}</p>
-                                            <p><i class="icon-person">{{ post.author }}</i></p>
+                                            {% if request.user.is_authenticated %}
+                                                {% if post.author == None %}
+                                                    <p><i class="icon-person">AnonymousUser</i></p>
+                                                {% else %}
+                                                    <p><i class="icon-person">{{ post.author }}</i></p>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if post.author == None %}
+                                                    <p><i class="icon-person">AnonymousUser</i></p>
+                                                {% else %}
+                                                    <p><i class="icon-person">{{ post.author }}</i></p>
+                                                {% endif %}
+                                            {% endif %}
                                             <p><i class="fa-regular fa-star"> {{ post.starts }}</i></p>
                                         </div>
                                         <p class="mb-4">{{ post.comment }}</p>

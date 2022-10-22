@@ -11,7 +11,6 @@ from reviews.forms import ReviewForm
 from django.urls import reverse
 
 
-
 def popular():
     top_post = Post.objects.all().order_by("-created_date")[:5]
     return top_post
@@ -42,7 +41,7 @@ def home(request):
 
 def your_posts(request, pk):
     user = User.objects.get(id=pk)
-    print(user)
+
     post = Post.objects.filter(author=user).order_by('-created_date')
     draft = post.filter(status=1)
 
@@ -67,6 +66,8 @@ def detail(request, pk, slug):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
+            if request.user.is_authenticated:
+                new_comment.user = request.user
             new_comment.post = post
             new_comment.save()
     else:
@@ -165,10 +166,10 @@ def post_delete(request, pk):
 def search_post(request):
     if request.method == "GET":
         queryset = request.GET.get('q')
-        print(queryset)
+
         if queryset is not None:
             result = Post.objects.filter(Q(title__icontains=queryset))
-            print(result)
+
     context = {
         "result": result,
     }
@@ -190,21 +191,20 @@ def view_tag(request, name):
 
 def reviews(request, pk):
     post = Post.objects.get(id=pk)
+
     user = request.user
-    
-    print("id:", post.id, "slug:", post.slug)
 
     if request.method == "POST":
-        form = ReviewForm(request.POST)
+        form = ReviewForm(request.POST or None)
 
         if form.is_valid():
-            #author = form.cleaned_data['author']
             starts = form.cleaned_data['starts']
             comment = form.cleaned_data['comment']
 
-            review = Review(author=user, starts=starts, comment=comment, post=post)
+            review = Review.objects.create(starts=starts, comment=comment, post=post)
             review.save()
             return redirect(reverse("blog:detail", args=[post.id, post.slug]))
+
     else:
         form = ReviewForm()
         review = Review.objects.filter(post=post)

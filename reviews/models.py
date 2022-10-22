@@ -13,7 +13,7 @@ class Review(models.Model):
 		(5, 5)
 	)
 
-	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 	starts = models.IntegerField(choices=RATE_CHOICES)
 	comment = models.TextField(null=True, blank=True)
 	review_date = models.DateTimeField(auto_now_add=True)

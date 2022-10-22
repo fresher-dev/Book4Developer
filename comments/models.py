@@ -1,13 +1,19 @@
 from django.db import models
 from blog.models import Post
+from django.contrib.auth.models import User
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    name = models.CharField(max_length=200)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     email = models.EmailField(blank=True, null=True)
     body = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=False)
 
     def __str__(self):
+        self.name = ''
+        if self.user is None:
+            self.name = "AnonymousUser"
+        else:
+            self.name = self.user
         return "Comment := {} <==> {} ".format(self.name, self.post.title)
