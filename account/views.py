@@ -132,7 +132,7 @@ def ask_confirm(request, pk):
 @login_required
 def create_profile(request, pk):
     user = User.objects.get(id=pk)
-    print(user)
+    
     if request.method == "POST":
         form = ProfileForm(request.POST)
         if form.is_valid():

@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect
 from django.utils.text import slugify
-from .models import Post, Tag
+from .models import Post
+from tags.models import Tag
 from django.contrib.auth.models import User
 from .forms import PostForm
 from comments.forms import CommentForm
 from django.db.models import Q
 from django.http import HttpResponse
-from reviews.models import Review
+from reviews.models import BlogReview
 from reviews.forms import ReviewForm
 from django.urls import reverse
-from comments.models import Comment
 
 
 def popular():
@@ -60,7 +60,7 @@ def detail(request, pk, slug):
     if post.slug == slug:
         pass
 
-    comment = post.comment_set.filter(active=True)
+    comment = post.blogcomment_set.filter(active=True)
     new_comment = None
 
     if request.method == "POST":
@@ -202,13 +202,13 @@ def reviews(request, pk):
             starts = form.cleaned_data['starts']
             comment = form.cleaned_data['comment']
 
-            review = Review.objects.create(starts=starts, comment=comment, post=post)
+            review = BlogReview.objects.create(starts=starts, comment=comment, post=post)
             review.save()
             return redirect(reverse("blog:detail", args=[post.id, post.slug]))
 
     else:
         form = ReviewForm()
-        review = Review.objects.filter(post=post)
+        review = BlogReview.objects.filter(post=post)
 
     context = {
         "form": form,

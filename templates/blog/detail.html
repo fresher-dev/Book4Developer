@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
     {% include 'navbar.html' %}
     <div id="colorlib-page">
@@ -41,7 +41,13 @@
 
                                 <div class="about-author d-flex p-4 bg-light">
                                     <div class="bio mr-5">
-                                        <a href="{% url 'account:view' post.author %}"><img src="/accounts{{ post.author.userprofile.image.url }}" alt="{{ post.author }}" class="img-fluid mb-4"></a>
+                                        <a href="{% url 'account:view' post.author %}">
+                                            {% if post.author.userprofile.image.url %}
+                                                <img class="img-fluid rounded-circle" src="/accounts{{ post.author.userprofile.image.url }}" alt="{{ post.author }}">
+                                            {% else %}
+                                                <img class="img-fluid rounded-circle" src="{% static 'img/default.png' %}" alt="{{ post.author }}">
+                                            {% endif %}
+                                        </a>
                                     </div>
                                     <div class="desc">
                                         <h3><a href="{% url 'blog:single' post.author %}">{{ post.author }}</a></h3>
@@ -76,7 +82,7 @@
                                                 {% endif %}
                                                 <div class="meta">{{ cmt.created_date }}</div>
                                                 <p>{{ cmt.body }}</p>
-                                                <p><a href="#" class="reply">Reply</a></p>
+                                                <p><a href="#name" class="reply">Reply</a></p>
                                                 <hr class="py-3">
                                             </div>
                                         {% endfor %}

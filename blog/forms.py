@@ -1,8 +1,11 @@
 from django import forms
 from .models import Post
+from django_summernote.widgets import SummernoteWidget
 
 
 class PostForm(forms.ModelForm):
+    body = forms.CharField(widget=SummernoteWidget())
+
     class Meta:
         model = Post
         fields = ["title", "body", "image", "status", 'tag']
@@ -10,6 +13,8 @@ class PostForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PostForm, self).__init__(*args, **kwargs)
         for field in self.fields:
+            if self.fields["body"]:
+                continue
             self.fields[field].widget.attrs['class'] = 'form-control'
 
         if self.fields['tag'] and self.fields['status'] and self.fields['image']:

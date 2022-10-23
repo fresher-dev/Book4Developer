@@ -26,7 +26,7 @@
         <div class="card mb-4">
           <div class="card-body text-center">
             {% if user.userprofile.image.url %}
-              <img src="/accounts{{ user.userprofile.image.url }}" alt="{{ user.username }}"
+              <img src="{{ user.userprofile.image.url }}" alt="{{ user.username }}"
               class="rounded-circle img-fluid" style="width: 150px;">
             {% else %}
               <img src="{% static 'img/default.png' %}" alt="{{ user.username }}"

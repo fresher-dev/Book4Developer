@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
     {% include 'navbar.html' %}
@@ -28,7 +29,12 @@
                                                 <p class="mb-4">{{ post.body|linebreaksbr|slice:":200" }}</p>
                                                 <div class="author mb-4 d-flex align-items-center">
                                                     <a href="{% url 'account:view' post.author %}">
-                                                        <img class="img-fluid rounded-circle" src="/accounts{{ post.author.userprofile.image.url }}" alt="{{ post.author }}"></a>
+                                                        {% if post.author.userprofile.image.url %}
+                                                            <img class="img-fluid rounded-circle" src="{{ post.author.userprofile.image.url }}" alt="{{ post.author }}">
+                                                        {% else %}
+                                                            <img class="img-fluid rounded-circle" src="{% static 'img/default.png' %}" alt="{{ post.author }}">
+                                                        {% endif %}
+                                                    </a>
                                                     <div class="ml-3 info">
                                                         <span>Written by</span>
                                                         <h3 class="mb-3">
@@ -47,8 +53,8 @@
                                                         <p class="meta">
                                                             <span><i class="icon-heart"></i>3</span>
                                                             <span><i class="icon-eye"></i>100</span>
-                                                            <span><i class="icon-comment"></i>{{ post.comment_set.all.count }}</span>
-                                                            <span><i class="">Review</i>{{ post.review_set.all.count }}</span>
+                                                            <span><i class="icon-comment"></i>{{ post.blogcomment_set.all.count }}</span>
+                                                            <span><i class="">Review</i>{{ post.blogreview_set.all.count }}</span>
                                                         </p>
                                                     </div>
                                                     <div class="half">

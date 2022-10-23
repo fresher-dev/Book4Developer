@@ -1,11 +1,11 @@
 from django import forms
-from .models import Comment
+from .models import BlogComment
 
 
 
 class CommentForm(forms.ModelForm):
     class Meta:
-        model = Comment
+        model = BlogComment
         fields = ["email", "body"]
 
     def __init__(self, *args, **kwargs):
