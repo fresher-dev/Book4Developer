@@ -16,7 +16,7 @@ class Post(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     body = models.TextField(null=True, blank=True)
     updated_date = models.DateTimeField(auto_now=True)
-    tag = models.ManyToManyField(Tag, null=True, blank=True)
+    tag = models.ManyToManyField(Tag, blank=True)
     image = models.ImageField(upload_to="postimg", null=True, blank=True)
     status = models.IntegerField(choices=STATUS_CHOOICE, default=0)
 

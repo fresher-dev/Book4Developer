@@ -1,0 +1,95 @@
+{% extends 'index.html' %}
+{% block title %}
+    Book Detail
+{% endblock %}
+
+{% block content %}
+
+    <!-- Product section-->
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{ book.cover.url }}"
+                                           alt="{{ book.title }}"/></div>
+                <div class="col-md-6">
+                    <div class="small mb-1"><strong>{{ book.author }}</strong></div>
+                    <h1 class="display-5 fw-bolder">{{ book.title }}</h1>
+                    <div class="">
+                        <span class="">{{ book.createe_date }}</span>
+                    </div>
+                    <p class="lead">{{ book.description }}</p>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ book.pdf_file.url }}"
+                                                    target="_blank">Free Download Now</a></div>
+                        <div class="small mb-1"><strong>created:</strong> {{ book.author }}</div>
+                    </div>
+                </div>
+                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                    <div class="text-left"><a class="btn btn-outline-primary mt-auto"
+                                              href="{% url 'books:home' %}">Back</a></div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="pt-5 mt-5">
+                    <h3 class="mb-5 font-weight-bold">{{ comment.count }} Comments</h3>
+                    <ul class="comment-list">
+                        {% for cmt in comment %}
+                            <li class="comment">
+                            <div class="vcard bio">
+                                <img src="/static/blog/images/person_1.jpg" alt="Image placeholder">
+                            </div>
+                            <div class="comment-body">
+                                {% if request.user.is_authenticated %}
+                                    {% if cmt.user == None %}
+                                        <p><i class="icon-person">AnonymousUser</i></p>
+                                    {% else %}
+                                        <p><i class="icon-person">{{ cmt.user }}</i></p>
+                                    {% endif %}
+                                {% else %}
+                                    {% if cmt.user == None %}
+                                        <p><i class="icon-person">AnonymousUser</i></p>
+                                    {% else %}
+                                        <p><i class="icon-person">{{ cmt.user }}</i></p>
+                                    {% endif %}
+                                {% endif %}
+                                <div class="meta">{{ cmt.created_date }}</div>
+                                <p>{{ cmt.body }}</p>
+                                <p><a href="#name" class="reply">Reply</a></p>
+                                <hr class="py-3">
+                            </div>
+                        {% endfor %}
+                        </li>
+                    </ul>
+                    <!-- END comment-list -->
+                    {% if new_comment %}
+                        <h3 class="mb-5">Your comment is waiting moderation</h3>
+                    {% else %}
+                        <div class="comment-form-wrap pt-5">
+                            <h3 class="mb-5">Leave a comment</h3>
+                            <form action="#" class="p-3 p-md-5 bg-light" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    {% if request.user.is_authenticated %}
+                                        <label for="name">Username:</label>
+                                        <p type="text" name="name" id="name" class="form-control">{{ request.user }}</p>
+                                    {% else %}
+                                        <label for="name">Username:</label>
+                                        <p type="text" name="name" id="name" class="form-control">{{ request.user }}</p>
+                                    {% endif %}
+                                    {{ comment_form.as_p }}
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Post Comment"
+                                           class="btn py-3 px-4 btn-primary">
+                                </div>
+
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

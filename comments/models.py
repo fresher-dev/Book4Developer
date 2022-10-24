@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from books.models import Book
 
 
-
 class BlogComment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -22,7 +21,6 @@ class BlogComment(models.Model):
         return "Comment := {} <==> {} ".format(self.name, self.post.title)
 
 
-
 class BookComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     email = models.EmailField(blank=True, null=True)
@@ -31,14 +29,12 @@ class BookComment(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     active = models.BooleanField(default=False)
 
-
     def __str__(self):
         self.name = ''
-        
+
         if self.user is None:
             self.name = "AnonymousUser"
         else:
             self.name = self.user
-
 
         return "Comment := {} <==> {} ".format(self.name, self.book.title)

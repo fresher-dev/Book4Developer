@@ -30,9 +30,9 @@
                                                 <div class="author mb-4 d-flex align-items-center">
                                                     <a href="{% url 'account:view' post.author %}">
                                                         {% if post.author.userprofile.image.url %}
-                                                            <img class="img-fluid rounded-circle" src="{{ post.author.userprofile.image.url }}" alt="{{ post.author }}">
+                                                            <img class="img-fluid shadow-1-strong rounded" src="{{ post.author.userprofile.image.url }}" alt="{{ post.author }}">
                                                         {% else %}
-                                                            <img class="img-fluid rounded-circle" src="{% static 'img/default.png' %}" alt="{{ post.author }}">
+                                                            <img class="img-fluid shadow-1-strong rounded" src="{% static 'img/default.png' %}" alt="{{ post.author }}">
                                                         {% endif %}
                                                     </a>
                                                     <div class="ml-3 info">

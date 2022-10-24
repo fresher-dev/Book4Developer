@@ -99,10 +99,10 @@
                                                 <div class="form-group">
                                                     {% if request.user.is_authenticated %}
                                                         <label for="name">Username:</label>
-                                                        <input type="text" name="name" id="name" value="{{ request.user }}" class="form-control">
+                                                        <p type="text" name="name" id="name" class="form-control">{{ request.user }}</p>
                                                     {% else %}
                                                         <label for="name">Username:</label>
-                                                        <input type="text" name="name" id="name" value="{{ request.user }}" class="form-control">
+                                                        <p type="text" name="name" id="name" class="form-control">{{ request.user }}</p>
                                                     {% endif %}
                                                     {{ comment_form.as_p }}
                                                 </div>

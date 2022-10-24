@@ -44,11 +44,8 @@ INSTALLED_APPS = [
     'books.apps.BooksConfig',
     'tags.apps.TagsConfig',
 
-    # third-part app
-    'django_summernote',
 ]
 
-X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
