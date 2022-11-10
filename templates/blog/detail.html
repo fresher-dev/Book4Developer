@@ -25,7 +25,7 @@
                                         <span class="ms-3"><a href="{% url 'blog:tag' tag %}" class="btn btn-outline-info">{{ tag }}</a></span>
                                     {% endfor %}
                                 </p>
-                                <p>{{ post.body }}</p>
+                                <p>{{ post.body|safe }}</p>
 
                                 <div class="pt-3 text-center">
                                     <a href="{% url 'blog:review' post.id %}" class="btn btn-outline-success">Reviews</a>

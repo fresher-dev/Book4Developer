@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from tags.models import Tag
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Post(models.Model):
@@ -14,7 +15,8 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.SlugField()
     created_date = models.DateTimeField(default=timezone.now)
-    body = models.TextField(null=True, blank=True)
+    #body = models.TextField(null=True, blank=True)
+    body = RichTextUploadingField(blank=True)
     updated_date = models.DateTimeField(auto_now=True)
     tag = models.ManyToManyField(Tag, blank=True)
     image = models.ImageField(upload_to="postimg", null=True, blank=True)
