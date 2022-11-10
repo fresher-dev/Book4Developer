@@ -17,6 +17,9 @@ urlpatterns = [
     path("search/", views.search_post, name="search"),
     path("tags/<str:name>/", views.view_tag, name="tag"),
     path("review/<int:pk>/", views.reviews, name="review"),
+    path("track-cookie/", views.track_cookie, name="track-cookie"),
+    path("track-user/", views.track_user, name="track-user"),
+    path("stop-tracking/", views.stop_tracking, name="stop-tracking"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

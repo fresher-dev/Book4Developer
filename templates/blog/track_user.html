@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+	<div class="container mt-5 py-5">
+		<div class="section-inner clearfix">
+			{% if not request.COOKIES.visits %}
+				<h4 class="text-muted">This is your first visit ot the site. Form now I will track your visits to this site.</h4>
+			{% else %}
+				<h4 class="text-muted">
+					This is your {{ request.COOKIES.visits|add:'1' }} visit
+					
+				</h4>
+			{% endif %}
+			<a href="{% url 'blog:stop-tracking' %}">Enough! Stop Tracking Me.</a>
+		</div>
+	</div>
+
+ {% endblock %}
