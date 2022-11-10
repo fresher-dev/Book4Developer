@@ -26,7 +26,7 @@
                                                 <h3 class="mb-4"><a
                                                         href="{% url 'blog:detail' post.id post.slug %}">{{ post.title }}</a>
                                                 </h3>
-                                                <p class="mb-4">{{ post.body|linebreaksbr|slice:":200" }}</p>
+                                                <p class="mb-4">{{ post.body|truncatewords:"20" }}</p>
                                                 <div class="author mb-4 d-flex align-items-center">
                                                     <a href="{% url 'account:view' post.author %}">
                                                         {% if post.author.userprofile.image.url %}
